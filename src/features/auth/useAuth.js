@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { authService } from './authService';
 import { useAuthStore } from './authStore';
@@ -9,7 +9,7 @@ const getApiError = (error, fallback) =>
   error?.response?.data?.message || fallback;
 
 export function useLogin() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const setAuth = useAuthStore((s) => s.setAuth);
 
   return useMutation({
@@ -17,7 +17,7 @@ export function useLogin() {
     onSuccess: (data) => {
       setAuth(data);
       toast.success('Login berhasil');
-      navigate('/dashboard');
+      router.push('/dashboard');
     },
     onError: (error) => {
       toast.error(getApiError(error, 'Login gagal'));
@@ -26,13 +26,13 @@ export function useLogin() {
 }
 
 export function useRegister() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: authService.register,
     onSuccess: () => {
       toast.success('Registrasi berhasil, silakan login');
-      navigate('/login');
+      router.push('/login');
     },
     onError: (error) => {
       toast.error(getApiError(error, 'Registrasi gagal'));
@@ -41,13 +41,14 @@ export function useRegister() {
 }
 
 export function useLogout() {
-  const navigate = useNavigate();
-  const { refreshToken, clearAuth } = useAuthStore.getState();
+  const router = useRouter();
+  const clearAuth = useAuthStore((s) => s.clearAuth);
 
   return useMutation({
     mutationFn: async () => {
       // Best-effort: cabut refresh token di server. Abaikan error agar
       // logout lokal tetap jalan walau request gagal.
+      const { refreshToken } = useAuthStore.getState();
       if (refreshToken) {
         try {
           await authService.logout(refreshToken);
@@ -59,7 +60,7 @@ export function useLogout() {
     onSettled: () => {
       clearAuth();
       toast.success('Logout berhasil');
-      navigate('/login');
+      router.push('/login');
     },
   });
 }

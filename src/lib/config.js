@@ -1,5 +1,5 @@
-// Konfigurasi terpusat yang dibaca dari environment variable.
-// Vite hanya mengekspos variabel yang diawali dengan VITE_.
+// Konfigurasi terpusat dari environment variable.
+// Di Next.js, variabel yang diekspos ke browser harus diawali NEXT_PUBLIC_.
 export const config = {
-  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
 };

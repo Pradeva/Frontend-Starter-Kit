@@ -1,13 +1,15 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { loginSchema } from '@/features/auth/authSchemas';
 import { useLogin } from '@/features/auth/useAuth';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
-export default function Login() {
+export default function LoginPage() {
   const login = useLogin();
   const {
     register,
@@ -43,7 +45,7 @@ export default function Login() {
       </form>
       <p className="mt-4 text-center text-sm text-slate-600">
         Belum punya akun?{' '}
-        <Link to="/register" className="font-medium text-brand-600 hover:underline">
+        <Link href="/register" className="font-medium text-brand-600 hover:underline">
           Daftar
         </Link>
       </p>

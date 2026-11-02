@@ -1,3 +1,5 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { postSchema } from '@/features/posts/postSchemas';
@@ -12,7 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { FullPageSpinner } from '@/components/ui/Spinner';
 
 // Modul contoh: daftar + buat + hapus post. Blueprint untuk fitur CRUD nyata.
-export default function Posts() {
+export default function PostsPage() {
   const { data: posts, isLoading, isError } = usePosts();
   const createPost = useCreatePost();
   const deletePost = useDeletePost();

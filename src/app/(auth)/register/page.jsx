@@ -1,13 +1,15 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { registerSchema } from '@/features/auth/authSchemas';
 import { useRegister } from '@/features/auth/useAuth';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
-export default function Register() {
+export default function RegisterPage() {
   const registerUser = useRegister();
   const {
     register,
@@ -50,7 +52,7 @@ export default function Register() {
       </form>
       <p className="mt-4 text-center text-sm text-slate-600">
         Sudah punya akun?{' '}
-        <Link to="/login" className="font-medium text-brand-600 hover:underline">
+        <Link href="/login" className="font-medium text-brand-600 hover:underline">
           Masuk
         </Link>
       </p>

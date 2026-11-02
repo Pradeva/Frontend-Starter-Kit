@@ -1,11 +1,14 @@
+'use client';
+
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/httpClient';
+import { RoleGuard } from '@/components/guards/RoleGuard';
 import { Card } from '@/components/ui/Card';
 import { FullPageSpinner } from '@/components/ui/Spinner';
 
 // Halaman admin-only. GET /users di backend dibatasi role 'admin'
-// (authorize('admin')). Route ini juga dijaga RoleRoute di sisi frontend.
-export default function Users() {
+// (authorize('admin')). Dibungkus RoleGuard di sisi frontend juga.
+function UsersList() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
@@ -35,5 +38,13 @@ export default function Users() {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function UsersPage() {
+  return (
+    <RoleGuard allowedRoles={['admin']}>
+      <UsersList />
+    </RoleGuard>
   );
 }
